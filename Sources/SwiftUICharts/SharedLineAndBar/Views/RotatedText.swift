@@ -48,6 +48,7 @@ internal struct RotatedText<ChartData>: View where ChartData: CTLineBarChartData
     internal var body: some View {
         Text(LocalizedStringKey(label))
             .font(chartData.chartStyle.xAxisLabelFont)
+            .baselineOffset(chartData.chartStyle.xAxisLabelBaselineOffset)
             .foregroundColor(chartData.chartStyle.xAxisLabelColour)
             .lineLimit(1)
             .overlay(
@@ -113,6 +114,7 @@ internal struct HorizontalRotatedText<ChartData>: View where ChartData: CTLineBa
     internal var body: some View {
         Text(LocalizedStringKey(label))
             .font(chartData.chartStyle.xAxisLabelFont)
+            .baselineOffset(chartData.chartStyle.xAxisLabelBaselineOffset)
             .lineLimit(1)
             .foregroundColor(chartData.chartStyle.xAxisLabelColour)
             .overlay(
@@ -163,6 +165,7 @@ internal struct TempText<ChartData>: View where ChartData: CTLineBarChartDataPro
     internal var body: some View {
         Text(LocalizedStringKey(label))
             .font(chartData.chartStyle.xAxisLabelFont)
+            .baselineOffset(chartData.chartStyle.xAxisLabelBaselineOffset)
             .foregroundColor(chartData.chartStyle.xAxisLabelColour)
             .lineLimit(1)
             .overlay(

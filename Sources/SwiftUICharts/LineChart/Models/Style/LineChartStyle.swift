@@ -32,6 +32,7 @@ public struct LineChartStyle: CTLineChartStyle {
     public var xAxisGridStyle: GridStyle
     
     public var xAxisLabelPosition: XAxisLabelPosistion
+    public var xAxisLabelBaselineOffset: CGFloat
     public var xAxisLabelFont: Font
     public var xAxisLabelColour: Color
     public var xAxisLabelsFrom: LabelsFrom
@@ -79,6 +80,7 @@ public struct LineChartStyle: CTLineChartStyle {
     ///   - xAxisGridStyle: Style of the vertical lines breaking up the chart.
     ///   
     ///   - xAxisLabelPosition: Location of the X axis labels - Top or Bottom.
+    ///   - xAxisLabelBaselineOffset: Font baseline offset on the X axis.
     ///   - xAxisLabelFont: Font of the labels on the X axis.
     ///   - xAxisLabelColour: Text Colour for the labels on the X axis.
     ///   - xAxisLabelsFrom: Where the label data come from. DataPoint or xAxisLabels.
@@ -124,6 +126,7 @@ public struct LineChartStyle: CTLineChartStyle {
         xAxisGridStyle: GridStyle = GridStyle(),
         
         xAxisLabelPosition: XAxisLabelPosistion = .bottom,
+        xAxisLabelBaselineOffset: CGFloat = 0,
         xAxisLabelFont: Font = .caption,
         xAxisLabelColour: Color = Color.primary,
         xAxisLabelsFrom: LabelsFrom = .dataPoint(rotation: .degrees(0)),
@@ -169,6 +172,7 @@ public struct LineChartStyle: CTLineChartStyle {
         self.xAxisGridStyle = xAxisGridStyle
         
         self.xAxisLabelPosition = xAxisLabelPosition
+        self.xAxisLabelBaselineOffset = xAxisLabelBaselineOffset
         self.xAxisLabelFont = xAxisLabelFont
         self.xAxisLabelsFrom = xAxisLabelsFrom
         self.xAxisLabelColour = xAxisLabelColour

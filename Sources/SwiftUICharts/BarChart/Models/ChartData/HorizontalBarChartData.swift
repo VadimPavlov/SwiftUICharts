@@ -137,6 +137,7 @@ public final class HorizontalBarChartData: CTHorizontalBarChartDataProtocol, Get
                                 .frame(minHeight: 0, maxHeight: 500)
                             Text(LocalizedStringKey(data))
                                 .font(self.chartStyle.xAxisLabelFont)
+                                .baselineOffset(self.chartStyle.xAxisLabelBaselineOffset)
                                 .lineLimit(1)
                                 .foregroundColor(self.chartStyle.xAxisLabelColour)
                                 .overlay(

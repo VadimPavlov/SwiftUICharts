@@ -120,7 +120,10 @@ public protocol CTLineBarChartStyle: CTChartStyle {
      Location of the X axis labels - Top or Bottom.
      */
     var xAxisLabelPosition: XAxisLabelPosistion { get set }
-    
+    /**
+     Font baseline offset on the X axis labels.
+     */
+    var xAxisLabelBaselineOffset: CGFloat { get set }
     /**
      Font of the labels on the X axis.
      */
