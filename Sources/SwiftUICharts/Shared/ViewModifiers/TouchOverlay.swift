@@ -42,18 +42,17 @@ internal struct TouchOverlay<T>: ViewModifier where T: CTChartData {
                 GeometryReader { geo in
                     ZStack {
                         content
+                            .delayTouches(delay: minDuration)
                             .gesture(
-                                LongPressGesture(minimumDuration: minDuration).sequenced(before:
-                                    DragGesture(minimumDistance: minDistance, coordinateSpace: .local)
-                                        .onChanged { (value) in
-                                            chartData.setTouchInteraction(touchLocation: value.location,
-                                                                          chartSize: geo.frame(in: .local))
-                                        }
-                                        .onEnded { _ in
-                                            chartData.infoView.isTouchCurrent = false
-                                            chartData.infoView.touchOverlayInfo = []
-                                        }
-                                )
+                                DragGesture(minimumDistance: minDistance, coordinateSpace: .local)
+                                    .onChanged { (value) in
+                                        chartData.setTouchInteraction(touchLocation: value.location,
+                                                                      chartSize: geo.frame(in: .local))
+                                    }
+                                    .onEnded { _ in
+                                        chartData.infoView.isTouchCurrent = false
+                                        chartData.infoView.touchOverlayInfo = []
+                                    }
                             )
                         if chartData.infoView.isTouchCurrent {
                             chartData.getTouchInteraction(touchLocation: chartData.infoView.touchLocation,
