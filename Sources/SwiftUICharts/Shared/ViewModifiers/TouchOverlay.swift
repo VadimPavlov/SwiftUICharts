@@ -15,6 +15,7 @@ internal struct TouchOverlay<T>: ViewModifier where T: CTChartData {
     
     @ObservedObject private var chartData: T
     let minDistance: CGFloat
+    let minDuration: TimeInterval
     private let specifier: String
     private let formatter: NumberFormatter?
     private let unit: TouchUnit
@@ -24,10 +25,12 @@ internal struct TouchOverlay<T>: ViewModifier where T: CTChartData {
         specifier: String,
         formatter: NumberFormatter?,
         unit: TouchUnit,
-        minDistance: CGFloat
+        minDistance: CGFloat,
+        minDuration: TimeInterval
     ) {
         self.chartData = chartData
         self.minDistance = minDistance
+        self.minDuration = minDuration
         self.specifier = specifier
         self.formatter = formatter
         self.unit = unit
@@ -40,15 +43,17 @@ internal struct TouchOverlay<T>: ViewModifier where T: CTChartData {
                     ZStack {
                         content
                             .gesture(
-                                DragGesture(minimumDistance: minDistance, coordinateSpace: .local)
-                                    .onChanged { (value) in
-                                        chartData.setTouchInteraction(touchLocation: value.location,
-                                                                      chartSize: geo.frame(in: .local))
-                                    }
-                                    .onEnded { _ in
-                                        chartData.infoView.isTouchCurrent = false
-                                        chartData.infoView.touchOverlayInfo = []
-                                    }
+                                LongPressGesture(minimumDuration: minDuration).sequenced(before:
+                                    DragGesture(minimumDistance: minDistance, coordinateSpace: .local)
+                                        .onChanged { (value) in
+                                            chartData.setTouchInteraction(touchLocation: value.location,
+                                                                          chartSize: geo.frame(in: .local))
+                                        }
+                                        .onEnded { _ in
+                                            chartData.infoView.isTouchCurrent = false
+                                            chartData.infoView.touchOverlayInfo = []
+                                        }
+                                )
                             )
                         if chartData.infoView.isTouchCurrent {
                             chartData.getTouchInteraction(touchLocation: chartData.infoView.touchLocation,
@@ -92,6 +97,7 @@ extension View {
         - specifier: Decimal precision for labels.
         - unit: Unit to put before or after the value.
         - minDistance: The distance that the touch event needs to travel to register.
+        - minDuration: The duration that the touch event needs to wait before register.
      - Returns: A  new view containing the chart with a touch overlay.
      */
     public func touchOverlay<T: CTChartData>(
@@ -99,13 +105,15 @@ extension View {
         specifier: String = "%.0f",
         formatter: NumberFormatter? = nil,
         unit: TouchUnit = .none,
-        minDistance: CGFloat = 0
+        minDistance: CGFloat = 0,
+        minDuration: TimeInterval = 0
     ) -> some View {
         self.modifier(TouchOverlay(chartData: chartData,
                                    specifier: specifier,
                                    formatter: formatter,
                                    unit: unit,
-                                   minDistance: minDistance))
+                                   minDistance: minDistance,
+                                   minDuration: minDuration))
     }
     #elseif os(tvOS)
     /**
